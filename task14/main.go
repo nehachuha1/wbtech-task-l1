@@ -19,6 +19,7 @@ func GetSomeVar() interface{} {
 	}
 }
 
+// реализовано через простой свитч тайп
 func main() {
 	test := GetSomeVar()
 	switch test.(type) {

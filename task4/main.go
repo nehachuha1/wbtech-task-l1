@@ -14,6 +14,7 @@ type Task struct {
 	Message string
 }
 
+// воркеры по кд слушают канал через range
 func StartWorker(workerID int, out chan Task, wg *sync.WaitGroup) {
 	defer wg.Done()
 
@@ -25,6 +26,7 @@ func StartWorker(workerID int, out chan Task, wg *sync.WaitGroup) {
 	fmt.Println("Exit from worker...")
 }
 
+// генерация задач и их закидывание в канал
 func GenerateTasks(out chan Task, quit chan bool, taskCount int) {
 	for i := 0; i < taskCount; i++ {
 		newTask := Task{
@@ -43,6 +45,8 @@ func GenerateTasks(out chan Task, quit chan bool, taskCount int) {
 	close(out)
 }
 
+// в канале sigchan слушаются входящие системные сигналы. соответственно с помощью select
+// слушаем канал с сигналами. если что-то ловим: реализуем логику завершения работы воркеров
 func main() {
 	sigchan := make(chan os.Signal, 1)
 	signal.Notify(sigchan, syscall.SIGINT, syscall.SIGTERM)
@@ -66,6 +70,9 @@ func main() {
 		}
 	}()
 
+	// также конкурентно генерируем таски и закидываем их в канал. также если во время генерации задач
+	// придёт сигнал о прекращении работы, нужно прервать работу функции (то есть часть задач просто не будет
+	// сгенерировано
 	go GenerateTasks(dataChannel, quitChan, 10)
 
 	wg.Wait()

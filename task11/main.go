@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// в данном задании использовал мапу с "пустыми" значениями для ключей
 func FindIntersection(list1 []int, list2 []int) []int {
 	elemsInFirst := make(map[int]struct{})
 

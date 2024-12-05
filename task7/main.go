@@ -5,6 +5,7 @@ import (
 	"sync"
 )
 
+// конкурентную запись в мапу мы обеспечиваем засчёт единого мьютекса
 func main() {
 	mu := &sync.RWMutex{}
 	counters := map[int]int{}

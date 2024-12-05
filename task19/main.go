@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// чтобы пподдерживались все символы, использую слайс рун
 func ReverseString(input string) string {
 	convertedString := []rune(input)
 	for i := 0; i < len(convertedString)/2; i++ {

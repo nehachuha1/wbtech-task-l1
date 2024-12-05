@@ -6,7 +6,6 @@ import (
 )
 
 const (
-	workTime  = 10
 	dataDelay = 500
 )
 
